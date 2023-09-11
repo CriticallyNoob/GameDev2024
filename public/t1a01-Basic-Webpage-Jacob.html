@@ -10,13 +10,26 @@
     font-size:15px;
     border:2px;
     padding:5px;
+    height:200px;
+    width:200px;
   }
+  button:hover {
+    transform: scale(1.05);
+    transition: 0.3s all;
+}
+button:active{
+    transition: 0.3s all;
+    transform: scale(0.95);
+}
+
 </style>
 </head>
 <body>
   <a href="https://criticallynoob.github.io/GameDev2023/public/t3a01-web-basics-Jacob.html">Last year</a>
 
-  <button id="button"></button>
+  <button id="button" onclick{
+    window.location.href = 'https://github.com/CriticallyNoob/GameDev2024/edit/main/public/t1a01-Basic-Webpage-Jacob.html';
+  }></button>
 
 <script type="text/javascript">
     var buttons = document.getElementById("button");

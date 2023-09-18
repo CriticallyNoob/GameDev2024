@@ -85,13 +85,13 @@ head {
             audio.volume = volumeControl.value;
         }
 
-        // Function to add a new audio source
-        function addAudio(event) {
+   // Function to upload a new audio file
+        function uploadAudio(event) {
             event.preventDefault();
-            const newAudioSource = audioLinkInput.value.trim();
-            if (newAudioSource) {
-                audio.src = newAudioSource;
-                localStorage.setItem('audioSource', newAudioSource);
+            const file = audioFileInput.files[0];
+            if (file) {
+                const objectURL = URL.createObjectURL(file);
+                audio.src = objectURL;
             }
         }
     </script>

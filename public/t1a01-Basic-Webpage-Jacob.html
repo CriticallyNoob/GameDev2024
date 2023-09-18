@@ -47,27 +47,21 @@ head {
     <button id="playPause">Play</button>
     <input id="volume" type="range" min="0" max="1" step="0.1" value="1">
     <form id="audioForm">
-        <input type="text" id="audioLink" placeholder="Enter MP3 Link">
-        <button type="submit">Add Audio</button>
+        <input type="file" id="audioFile" accept=".mp3">
+        <button type="submit">Upload Audio</button>
     </form>
 
     <script>
         const audio = document.getElementById('audio');
         const playPauseButton = document.getElementById('playPause');
         const volumeControl = document.getElementById('volume');
-        const audioLinkInput = document.getElementById('audioLink');
+        const audioFileInput = document.getElementById('audioFile');
         const audioForm = document.getElementById('audioForm');
-
-        // Retrieve the audio source from local storage
-        const savedAudioSource = localStorage.getItem('audioSource');
-        if (savedAudioSource) {
-            audio.src = savedAudioSource;
-        }
 
         // Add event listeners
         playPauseButton.addEventListener('click', togglePlayPause);
         volumeControl.addEventListener('input', setVolume);
-        audioForm.addEventListener('submit', addAudio);
+        audioForm.addEventListener('submit', uploadAudio);
 
         // Function to play or pause the audio
         function togglePlayPause() {
@@ -85,7 +79,7 @@ head {
             audio.volume = volumeControl.value;
         }
 
-   // Function to upload a new audio file
+        // Function to upload a new audio file
         function uploadAudio(event) {
             event.preventDefault();
             const file = audioFileInput.files[0];

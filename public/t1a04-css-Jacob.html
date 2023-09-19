@@ -1,1 +1,42 @@
-hello world!
+<html>
+    <head>
+        <style>
+            body {
+                background-image:url(https://i.kym-cdn.com/photos/images/newsfeed/002/422/232/02b.gif);
+                font-size:15px;
+            }
+            button:hover {
+                transform: scale(1.05);
+                transition: 0.3s all;
+               background-color: grey;
+               cursor:progress;
+            }
+            button:active {
+                background-color: black;
+                transition: 0.3s all;
+                transform: scale(0.95);
+            }
+            .button {
+                Background-color:grey;
+                color:whitesmoke;
+                padding:2px;
+                border:1px;
+                width:75px;
+                height:50px;
+            }
+            
+        </style>
+    </head>
+    <body>
+        <h1 align="center" style="color:white;" >CSS</h1>
+        <button class="button" onclick="window.location.href = 'https://criticallynoob.github.io/GameDev2023/public/t3a04-css-Jacob.html';">Last year</button><br><br>
+        
+        <button class="rat" onclick="window.location.href = 'https://www.youtube.com/watch?v=720M4OpLzd8';"><img width="100px" height="150px" src="https://i.pinimg.com/736x/f2/73/47/f273470873b545dc03f6039af6099f64.jpg"></button><br><br>
+        
+        <img src="https://i0.wp.com/www.martymousehouse.com/wp-content/uploads/2021/04/Nickels_RatDay2021-8145.jpg?ssl=1" id="myImg01" width="500px" onMouseenter="{
+            document.getElementById('myImg01').src = 'https://i.ytimg.com/vi/aYHzV2Y9UgY/sddefault.jpg'
+        }"      onMouseOut="{
+        document.getElementById('myImg01').src = 'https://i0.wp.com/www.martymousehouse.com/wp-content/uploads/2021/04/Nickels_RatDay2021-8145.jpg?ssl=1'
+        }"><br>
+    </body>
+</html>

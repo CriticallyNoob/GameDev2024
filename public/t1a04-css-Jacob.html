@@ -24,7 +24,35 @@
                 width:75px;
                 height:50px;
             }
-            
+            conbutton {
+            padding: 15px 30px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Confetti Styles */
+        .confetti {
+            width: 10px;
+            height: 10px;
+            background-color: #f00; /* Change to your desired confetti color */
+            position: absolute;
+            animation: fall 2s ease-in-out infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
         </style>
     </head>
     <body>
@@ -38,5 +66,33 @@
         }"      onMouseOut="{
         document.getElementById('myImg01').src = 'https://i0.wp.com/www.martymousehouse.com/wp-content/uploads/2021/04/Nickels_RatDay2021-8145.jpg?ssl=1'
         }"><br>
+        <button class="conbutton" id="confettiButton" onclick="dropConfetti()">Drop Confetti</button>
+
+    <script>
+        // Function to create and append confetti elements at the top of the page
+        function createConfetti() {
+            const confetti = document.createElement("div");
+            confetti.className = "confetti";
+            confetti.style.left = `${Math.random() * 100}%`;
+            confetti.style.top = "0"; // Confetti appears at the top
+            document.body.appendChild(confetti);
+
+            // Remove the confetti element after animation completes
+            confetti.addEventListener("animationend", () => {
+                confetti.remove();
+            });
+        }
+
+        // Function to handle the button click
+        function dropConfetti() {
+            // Disable the button to prevent multiple clicks
+            document.getElementById("confettiButton").disabled = true;
+
+            // Create multiple confetti pieces when the button is clicked
+            for (let i = 0; i < 50; i++) {
+                createConfetti();
+            }
+        }
+    </script>
     </body>
 </html>

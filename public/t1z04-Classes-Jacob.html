@@ -10,10 +10,11 @@
   }
   } //end class myAnimal
 </script>
-
+Name<input type="text" id="name"><br><br>
+Age<input type="text" id="age"><br><br>
 <input type=button value="Class Person" onClick="{
 
-  myCharacter = new myPerson ('Elon', 52)
+  myCharacter = new myPerson (document.getElementById('name').value, document.getElementById('age').value)
   myCharacter.myShow()
   }">
   <div id="myDiv01">...</div>

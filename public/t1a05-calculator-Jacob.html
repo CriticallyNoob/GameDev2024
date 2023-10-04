@@ -11,6 +11,7 @@ function addition() {
     var result = start + second;
 
     document.getElementById('answer').innerHTML = result;
+    document.getElementById('old').innerHTML = document.getElementById('old').value + result + '\n';
 }
 function subtraction() {
     var start = document.getElementById('start').value;
@@ -18,6 +19,7 @@ function subtraction() {
     var result = start - second;
 
     document.getElementById('answer').innerHTML = result;
+    document.getElementById('old').innerHTML = document.getElementById('old').value + result + '\n';
 }
 function multiplication() {
     var start = document.getElementById('start').value;
@@ -25,6 +27,7 @@ function multiplication() {
     var result = start * second;
 
     document.getElementById('answer').innerHTML = result;
+    document.getElementById('old').innerHTML = document.getElementById('old').value + result + '\n';
 }
 function divide() {
     var start = document.getElementById('start').value;
@@ -32,6 +35,9 @@ function divide() {
     var result = start / second;
 
     document.getElementById('answer').innerHTML = result;
+    document.getElementById('old').innerHTML = document.getElementById('old').value + result + '\n';
 }
+
 </script>
 <div id="answer">...</div><br><br>
+<textarea id="old"></textarea>

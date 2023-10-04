@@ -1,0 +1,37 @@
+<input type=number id="start"><br>
+<input type="number" id="second"><br>
+<button id="add" onclick="addition()">+</button><br>
+<button id="subtract" onclick="subtraction()">-</button><br>
+<button id="multiply" onclick="multiplication()">x</button><br>
+<button id="divide" onclick="divide()">/</button><br>
+<script>
+function addition() {
+    var start = parseInt(document.getElementById('start').value);
+    var second = parseInt(document.getElementById('second').value);
+    var result = start + second;
+
+    document.getElementById('answer').innerHTML = result;
+}
+function subtraction() {
+    var start = document.getElementById('start').value;
+    var second = document.getElementById('second').value;
+    var result = start - second;
+
+    document.getElementById('answer').innerHTML = result;
+}
+function multiplication() {
+    var start = document.getElementById('start').value;
+    var second = document.getElementById('second').value;
+    var result = start * second;
+
+    document.getElementById('answer').innerHTML = result;
+}
+function divide() {
+    var start = document.getElementById('start').value;
+    var second = document.getElementById('second').value;
+    var result = start / second;
+
+    document.getElementById('answer').innerHTML = result;
+}
+</script>
+<div id="answer">...</div><br><br>

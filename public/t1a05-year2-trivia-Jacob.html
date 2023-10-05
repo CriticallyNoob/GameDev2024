@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Trivia Game</title>
+</head>
+<body>
+    <h6>Version 0.0.1</h6>
+    <h2>trivia</h2>
+    From <a href="https://opentdb.com/api_config.php">https://optentdb.com/api_config.php</a><br>
+    <input type="button" value="trivia" onclick="fetchTrivia()"><br><br>
+
+    <div id="myDiv01">...</div>
+    <hr>
+
+    <input type="button" id="myButtonA" value="A" onclick="checkAnswer('A')"><br>
+    <input type="button" id="myButtonB" value="B" onclick="checkAnswer('B')"><br>
+    <input type="button" id="myButtonC" value="C" onclick="checkAnswer('C')"><br>
+    <input type="button" id="myButtonD" value="D" onclick="checkAnswer('D')"><br>
+
+    <div id="myDiv02">...</div>
+    <div id="answer" style="display: none;"></div>
+
+    <script>
+        let correctAnswer1;
+        let options;
+        async function fetchTrivia() {
+            const myData = await fetch('https://opentdb.com/api.php?amount=1');
+            const myTemp = await myData.json();
+            console.log(myTemp);
+            correctAnswer1 = myTemp.results[0].correct_answer;
+            document.getElementById("answer").innerHTML = correctAnswer1;
+            const question = myTemp.results[0].question;
+            options = myTemp.results[0].incorrect_answers.concat(myTemp.results[0].correct_answer);
+
+            document.getElementById('myDiv01').innerHTML = 'Question: ' + question;
+            document.getElementById('myButtonA').value = 'A: ' + options[0];
+            document.getElementById('myButtonB').value = 'B: ' + options[1];
+            document.getElementById('myButtonC').value = 'C: ' + options[2];
+            document.getElementById('myButtonD').value = 'D: ' + options[3];
+
+            document.getElementById('myDiv02').innerHTML = '';
+        }
+
+        function checkAnswer(selectedOption) {
+            if(selectedOption === "A"){
+                selectedOption = options[0]
+            } else if (selectedOption === "B"){
+                selectedOption = options[1]
+            }
+            else if (selectedOption === "C"){
+                selectedOption = options[2]
+            }
+            else if (selectedOption === "D"){
+                selectedOption = options[3]
+            }
+            console.log(selectedOption)
+            
+            if (selectedOption === correctAnswer1) {
+                document.getElementById('myDiv02').innerHTML = 'Correct!';
+            } else {
+                document.getElementById('myDiv02').innerHTML = 'Wrong.';
+            }
+        }
+    </script>
+</body>
+</html>

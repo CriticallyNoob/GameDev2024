@@ -1,121 +1,186 @@
+<br>
+
+T1A10 (3D)
+
+<br>
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Location Map</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js" crossorigin=""></script>
+	<head>
+		<title>three.js webgl - animation - keyframes</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link type="text/css" rel="stylesheet" href="main.css">
+		<style>
+			body {
+				background-color: #bfe3dd;
+				color: #000;
+			}
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css"> 
-       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script>
-       <script src="
-       https://cdn.jsdelivr.net/npm/leaflet-control-geocoder@2.4.0/dist/Control.Geocoder.min.js
-       "></script>
-       <link href="
-       https://cdn.jsdelivr.net/npm/leaflet-control-geocoder@2.4.0/dist/Control.Geocoder.min.css
-       " rel="stylesheet">  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+			a {
+				color: #2983ff;
+			}
+		</style>
+	</head>
 
-    <style>
-        
-       body, html, #map {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            z-index: 0;
-        }
-        #title {
-            z-index: 1;
-            position: fixed;
-            left: 50%;
-            transform: translate(-50%);
-            text-align: center;
-        }
-        #ip {
-            z-index: 2;
-            position: fixed;
-            left: 50%;
-            bottom: 3%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-        }
-        #latLong {
-            font-size: 20px;
-            z-index: 2;
-            position: fixed;
-            left: 50%;
-            bottom: 1%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
-    <h1 id="title" style="text-align: center;">Location Map</h1>
-        <div id="map"></div>
-        <h1 id="ip"> IP Adress: <span id="ipAdress" style="font-weight: bolder;"></span></h1>
-        <h1 id="latLong">Current Location: <span id="latLongNumber" style="font-weight: bolder;"></span></h1>
+	<body>
 
+		<div id="container"></div>
 
+		<div id="info">
+			<a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> webgl - animation - keyframes<br/>
+			Model: <a href="https://artstation.com/artwork/1AGwX" target="_blank" rel="noopener">Littlest Tokyo</a> by
+			<a href="https://artstation.com/glenatron" target="_blank" rel="noopener">Glen Fox</a>, CC Attribution.
+		</div>
 
-    <script>
-        // Initialize the map
-        var map = L.map('map').setView([0, 0], 13);
+		<script type="importmap">
+			{
+				"imports": {
+					"three": "../build/three.module.js",
+					"three/addons/": "./jsm/"
+				}
+			}
+		</script>
 
-        // Replace the tile layer URL with OpenStreetMap's URL
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
+		<script type="module">
 
+			import * as THREE from 'three';
 
-        var geocoder = L.Control.geocoder({
-            collapsed: false,
-            placeholder: 'Search for a location...',
-            defaultMarkGeocode: false
-        }).addTo(map);
+			import Stats from 'three/addons/libs/stats.module.js';
 
-        function onLocationFound(e) {
-            
-            // Get the latitude and longitude
-            var lat = e.latlng.lat;
-            var lng = e.latlng.lng;
-            document.getElementById('latLongNumber').innerHTML = `Latitude: ${lat}, Longitude: ${lng}`
-            var radius = e.accuracy / 2;
-            L.marker(e.latlng).addTo(map)
-                .bindPopup("You are within " + radius.toFixed(0) + " meters from this point").openPopup();
+			import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+			import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
-            L.circle(e.latlng, radius).addTo(map);
-        }
+			import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+			import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 
-        // Function to handle location error
-        function onLocationError(e) {
-            alert(e.message);
-        }
+			let mixer;
 
-        // Add an event listener to the geocoder control
-        geocoder.on('markgeocode', function (e) {
-            map.setView(e.geocode.center);
-        });
+			const clock = new THREE.Clock();
+			const container = document.getElementById( 'container' );
 
-        // Ask for permission to access the user's location and handle the result
-        map.on('locationfound', onLocationFound);
-        map.on('locationerror', onLocationError);
+			const stats = new Stats();
+			container.appendChild( stats.dom );
 
-        map.locate({ setView: true, maxZoom: 16 });
-getIpAddress();
-        function getIpAddress() {
-   
-    $.getJSON("https://api.ipify.org?format=json", function(data) {
-        var ipAddress = data.ip;
-        if (ipAddress !== null) {
-            console.log(ipAddress);
-            document.getElementById("ipAdress").innerHTML = ipAddress
-        }
-    });
+			const renderer = new THREE.WebGLRenderer( { antialias: true } );
+			renderer.setPixelRatio( window.devicePixelRatio );
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			container.appendChild( renderer.domElement );
+
+			const pmremGenerator = new THREE.PMREMGenerator( renderer );
+
+			const scene = new THREE.Scene();
+			scene.background = new THREE.Color( 0xbfe3dd );
+			scene.environment = pmremGenerator.fromScene( new RoomEnvironment( renderer ), 0.04 ).texture;
+
+			const camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 100 );
+			camera.position.set( 5, 2, 8 );
+
+			const controls = new OrbitControls( camera, renderer.domElement );
+			controls.target.set( 0, 0.5, 0 );
+			controls.update();
+			controls.enablePan = false;
+			controls.enableDamping = true;
+
+			const dracoLoader = new DRACOLoader();
+			dracoLoader.setDecoderPath( 'jsm/libs/draco/gltf/' );
+
+			const loader = new GLTFLoader();
+			loader.setDRACOLoader( dracoLoader );
+			loader.load( 'models/gltf/LittlestTokyo.glb', function ( gltf ) {
+
+				const model = gltf.scene;
+				model.position.set( 1, 1, 0 );
+				model.scale.set( 0.01, 0.01, 0.01 );
+				scene.add( model );
+
+				mixer = new THREE.AnimationMixer( model );
+				mixer.clipAction( gltf.animations[ 0 ] ).play();
+
+				animate();
+
+			}, undefined, function ( e ) {
+
+				console.error( e );
+
+			} );
 
 
-}
+			window.onresize = function () {
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+			};
 
 
-    </script>
-</body>
+			function animate() {
+
+				requestAnimationFrame( animate );
+
+				const delta = clock.getDelta();
+
+				mixer.update( delta );
+
+				controls.update();
+
+				stats.update();
+
+				renderer.render( scene, camera );
+
+			}
+
+
+		</script>
+
+	</body>
+
 </html>
+
+<style> 
+
+
+@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
+
+  body {
+
+
+font-family: 'Oswald', sans-serif; 
+    font-size: 30px;
+    background-color: black;
+       background-image: url(https://i.ytimg.com/vi/xzMBzDdCp2o/maxresdefault.jpg);
+
+    color: white;
+    text-align: center;
+background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  }
+
+  a {
+    color: #000000;
+  }
+
+  a:hover {
+    color: white;
+  } 
+
+
+  h1 {
+
+    text-align: center;
+    padding-top: 60px;
+
+
+  }
+
+
+
+  .background-image {
+    filter: blur(2px);
+    -webkit-filter: blur(8px);
+  }
+    

@@ -49,13 +49,7 @@ const textureLoader = new THREE.TextureLoader();
         map: texture,
         side: THREE.BackSide
     });
-    // Create the skybox mesh
-    const skybox = new THREE.Mesh(skyboxGeometry, skyboxMaterial);
-    skybox.position.set(0, 0, 0);
-
-    // Add the skybox to the scene
-    scene.add(skybox);
-
+    
 
 directionalLight.position.set(1, 1, 1);
 directionalLight.castShadow = true; // Enable shadow casting

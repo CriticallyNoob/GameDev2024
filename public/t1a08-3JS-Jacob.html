@@ -3,7 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Spinning 3D Model</title>
-    
+    <style>
+        body {
+            margin: 0;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
 </head>
 <body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -49,7 +56,13 @@ const textureLoader = new THREE.TextureLoader();
         map: texture,
         side: THREE.BackSide
     });
-    
+    // Create the skybox mesh
+    const skybox = new THREE.Mesh(skyboxGeometry, skyboxMaterial);
+    skybox.position.set(0, 0, 0);
+
+    // Add the skybox to the scene
+    scene.add(skybox);
+
 
 directionalLight.position.set(1, 1, 1);
 directionalLight.castShadow = true; // Enable shadow casting
@@ -137,5 +150,8 @@ animate();
 
 
 
-
+  .background-image {
+    filter: blur(2px);
+    -webkit-filter: blur(8px);
+  }
     

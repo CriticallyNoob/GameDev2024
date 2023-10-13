@@ -17,8 +17,12 @@
             var name = document.getElementById('myText01').value
             var age = document.getElementById('myText02').value
 
-            if (age <= 17) {
-                document.getElementById('myDiv01').innerHTML = 'hello ' + name + ' you are a child.'
+            if (age <= 4) {
+                document.getElementById('myDiv01').innerHTML = 'hello ' + name + ' you are a baby.'
+            } else if (age <= 12 && age >= 5) {
+                document.getElementById('myDiv01').innerHTML = 'hello ' + name + ' you are a kid.'
+            } else if (age <= 17 && age >= 13) {
+                document.getElementById('myDiv01').innerHTML = 'hello ' + name + ' you are a teenager.'
             } else if (age >= 18) {
                 document.getElementById('myDiv01').innerHTML = 'hello ' + name + ' you are an adult.'
             }

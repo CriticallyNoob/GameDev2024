@@ -1,0 +1,27 @@
+<head>
+    <h1>fun-coding-by-Jacob.html</h1>
+    <style>
+        body {
+            background-color:lightblue;
+            font-size:12px;
+        }
+    </style>
+</head>
+<body>
+    <textarea id="myText01">Fred</textarea><br>
+    <textarea id="myText02">16</textarea><br>
+    <input type="button" value="salutation" onclick="salutation()"><br>
+    <div id="myDiv01">...</div>
+    <script>
+        function salutation() {
+            var name = document.getElementById('myText01').value
+            var age = document.getElementById('myText02').value
+
+            if (age <= 17) {
+                document.getElementById('myDiv01').innerHTML = 'hello ' + name + ' you are a child.'
+            } else if (age >= 18) {
+                document.getElementById('myDiv01').innerHTML = 'hello ' + name + ' you are an adult.'
+            }
+        }
+    </script>
+</body>

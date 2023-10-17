@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>t1a09-year2-local-storage-name by Jacob</title>
+    <script>
+        window.onload = function() {
+            myStorage = localStorage.getItem('myStoredText');
+            if (myStorage != null) {
+                document.getElementById('myText01').value = myStorage;
+            }
+        };
+
+        window.onunload = function() {
+            localStorage.setItem('myStoredText', document.getElementById('myText01').value);
+        };
+
+        function retrieveValue() {
+            document.getElementById('myText01').value = localStorage.getItem('myStoredText') + '\n';
+        }
+    </script>
+</head>
+<body>
+    <h2>Instructions:</h2>
+    Use local storage to make a to-do list.
+
+    Text example: <input id="myText01" type="text" size="70" value="" placeholder="Write here to store"><br>
+
+    <input type="button" value="Retrieve" onclick="retrieveValue()">
+</body>
+</html>

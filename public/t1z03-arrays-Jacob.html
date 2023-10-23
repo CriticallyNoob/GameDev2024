@@ -1,23 +1,75 @@
-<h1 align="center">arrays</h1>
-<script>
-  let myThingName = ['Jon', 'Dan', 'Fred']
-  let myThingZombie = [true, false, true]
-</script>
 
-Is <select id="mySelect01" size=1 onchange="{
-     myInput = document.getElementById('mySelect01').value
-    for (myLoop=0; myLoop < 4; myLoop++){
-      if(myThingName[myLoop] == myInput){
-        if(myThingName[myLoop]{
-          document.getElementById('myDiv01').innerHTML = myInput +  'IS a Zombie'
-        } else document.getElementById('myDiv01').innerHTML = myInput + 'is NOT a Zombie'
+
+<br>
+
+
+
+
+
+
+
+
+T1A05 (Arrays) 
+
+<br>
+
+    <label>
+      Classmate:
+      <select id="nameDropdown"></select>
+    </label>
+    <label>
+      is <input type="text" id="nameInput" placeholder="New Names Here"> a Zombie?
+        <br>
+      <input type="button" value="Add" onclick="addName()">
+    </label>
+    <br>
+    <input type="button" value="Check it" onclick="checkZombie()">
+    <br>
+    <div id="myDiv01"></div>
+  </div>
+  
+  <script>
+
+    var nameDropdown = document.getElementById("nameDropdown");
+    var storedNames = JSON.parse(localStorage.getItem("names")) || [];
+    var zombies = JSON.parse(localStorage.getItem("zombies")) || {};
+    updateDropdown();
+
+    function updateDropdown() {
+      nameDropdown.innerHTML = "";
+      for (var i = 0; i < storedNames.length; i++) {
+        var option = document.createElement("option");
+        option.value = storedNames[i];
+        option.text = storedNames[i];
+        nameDropdown.appendChild(option);
       }
     }
-}">
-  <option>     </option>
-  <option> Jon </option>
-  <option> Dan </option>
-  <option> Fred</option>
-</select> A Zombie? fr? just like that?<br>
 
-<div id="myDiv01">...</div><br>
+    function addName() {
+      var newName = document.getElementById("nameInput").value.toLowerCase();
+      if (newName && !storedNames.includes(newName)) {
+        storedNames.push(newName);
+
+   
+        if (zombies[newName] === undefined) {
+          zombies[newName] = Math.random() < 0.5;
+        }
+
+        localStorage.setItem("names", JSON.stringify(storedNames));
+        localStorage.setItem("zombies", JSON.stringify(zombies));
+        updateDropdown();
+        nameDropdown.value = newName;
+        document.getElementById("nameInput").value = "";
+      }
+    }
+
+    function checkZombie() {
+      var selectedName = nameDropdown.value.toLowerCase();
+      if (zombies[selectedName]) {
+        document.getElementById("myDiv01").textContent = selectedName + " is a zombie!";
+      } else {
+        document.getElementById("myDiv01").textContent = selectedName + " is not a zombie.";
+      }
+    }
+  </script>
+

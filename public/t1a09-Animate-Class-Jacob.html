@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .myCharacter {
+            position: absolute;
+            width: 120px;
+            height: 90px;
+        }
+    </style>
+</head>
+<body onload="initCharacter();">
+    <img src="PostRat.jpg" class="myCharacter" id="myCharacter01">
+    <script>
+        class CharacterAnimator {
+            constructor(element) {
+                this.element = element;
+                this.maxX = window.innerWidth - 40;
+                this.maxY = window.innerHeight - 30;
+                this.x = 0;
+                this.y = 0;
+                this.dx = 5;
+                this.dy = 5;
+            }
+
+            animate() {
+                this.x += this.dx;
+                this.y += this.dy;
+
+                if (this.x < 0 || this.x > this.maxX) {
+                    this.dx = -this.dx;
+                }
+
+                if (this.y < 0 || this.y > this.maxY) {
+                    this.dy = -this.dy;
+                }
+
+                this.element.style.left = this.x + 'px';
+                this.element.style.top = this.y + 'px';
+                requestAnimationFrame(() => this.animate());
+            }
+        }
+
+        function initCharacter() {
+            var character = document.getElementById('myCharacter01');
+            character.style.left = '0px';
+            character.style.top = '0px';
+            character.classList.add('myCharacter');
+            const characterAnimator = new CharacterAnimator(character);
+            characterAnimator.animate();
+        }
+    </script>
+</body>
+</html>

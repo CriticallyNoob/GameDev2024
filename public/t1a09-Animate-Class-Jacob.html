@@ -7,20 +7,32 @@
             width: 120px;
             height: 90px;
         }
+
+        body {
+            background-image: url('https://www.qpanel.eu/wp-content/uploads/QD05.3.006.01.jpg');
+            background-size: cover;
+        }
     </style>
 </head>
-<body onload="initCharacter();">
+<body onload="initCharacters();">
     <img src="PostRat.jpg" class="myCharacter" id="myCharacter01">
+    <img src="PostRat.jpg" class="myCharacter" id="myCharacter02">
+    <img src="PostRat.jpg" class="myCharacter" id="myCharacter03">
+    <img src="PostRat.jpg" class="myCharacter" id="myCharacter04">
+    <img src="PostRat.jpg" class="myCharacter" id="myCharacter05">
+    <img src="PostRat.jpg" class="myCharacter" id="myCharacter06">
+    <img src="PostRat.jpg" class="myCharacter" id="myCharacter07">
+    <img src="PostRat.jpg" class="myCharacter" id="myCharacter08">
     <script>
         class CharacterAnimator {
             constructor(element) {
                 this.element = element;
                 this.maxX = window.innerWidth - 40;
                 this.maxY = window.innerHeight - 30;
-                this.x = 0;
-                this.y = 0;
-                this.dx = 5;
-                this.dy = 5;
+                this.x = Math.random() * this.maxX;
+                this.y = Math.random() * this.maxY;
+                this.dx = (Math.random() - 0.5) * 10; // Random horizontal speed
+                this.dy = (Math.random() - 0.5) * 10; // Random vertical speed
             }
 
             animate() {
@@ -41,13 +53,14 @@
             }
         }
 
-        function initCharacter() {
-            var character = document.getElementById('myCharacter01');
-            character.style.left = '0px';
-            character.style.top = '0px';
-            character.classList.add('myCharacter');
-            const characterAnimator = new CharacterAnimator(character);
-            characterAnimator.animate();
+        function initCharacters() {
+            const characterElements = document.querySelectorAll('.myCharacter');
+            characterElements.forEach((element, index) => {
+                element.style.left = Math.random() * (window.innerWidth - 40) + 'px';
+                element.style.top = Math.random() * (window.innerHeight - 30) + 'px';
+                const characterAnimator = new CharacterAnimator(element);
+                characterAnimator.animate();
+            });
         }
     </script>
 </body>

@@ -1,2 +1,5 @@
-October 26th
-Work on Capstone
+Work on capstone
+
+Study Japanese or something
+
+Work on old assignments

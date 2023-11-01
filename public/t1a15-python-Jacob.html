@@ -1,0 +1,42 @@
+<script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
+
+<h1 align="center">Pyodide: Python with JavaScript in the browser</h1>
+
+<p>Enter some Python code in the textarea below, then click the "Run" button. The output will be displayed in the div below.</p>
+
+<textarea id="pythonCode" rows="6" cols="40">
+    str("bimbimbam")
+</textarea>
+
+<button onclick="runPythonCode()">Run</button>
+
+<div id="outputDiv">Output will appear here.</div>
+
+<script>
+  let pyodide;
+  const pythonCodeTextarea = document.getElementById("pythonCode");
+  const outputDiv = document.getElementById("outputDiv");
+
+  async function initializePyodide() {
+    pyodide = await loadPyodide();
+    outputDiv.innerHTML = "Ready to run Python code.";
+  }
+
+  function runPythonCode() {
+    const myPython = pythonCodeTextarea.value;
+    outputDiv.innerHTML = "Running Python code...";
+
+    if (pyodide) {
+      try {
+        const result = pyodide.runPython(myPython);
+        outputDiv.innerHTML = "Output:<br>" + result;
+      } catch (err) {
+        outputDiv.innerHTML = "Error:<br>" + err.replace(/\n/g, '<br>');
+      }
+    } else {
+      outputDiv.innerHTML = "Pyodide is not initialized yet. Please wait.";
+    }
+  }
+
+  initializePyodide();
+</script>

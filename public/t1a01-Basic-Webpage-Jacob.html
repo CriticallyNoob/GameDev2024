@@ -1,92 +1,101 @@
 <head>
-  <h1 align=center>Basic Web page 2024</h1>
-<style>
-  body {
-    background-color:lightblue;
-    font-size:15px;
+    <h1 align=center class="title">Basic Web page 2024</h1>
+  <style>
+    body {
+      background-image:url(https://media.tenor.com/Rq2bZDwmvRAAAAAC/meme-funny.gif);
+      font-size:15px;
+    }
+    .button {
+      background-color:white;
+      font-size:15px;
+      border:2px;
+      padding:5px;
+      height:200px;
+      width:200px;
+    }
+    button:hover {
+      transform: scale(1.05);
+      transition: 0.3s all;
   }
-  .button {
-    background-color:white;
-    font-size:15px;
-    border:2px;
-    padding:5px;
-    height:200px;
-    width:200px;
+  button:active{
+      transition: 0.3s all;
+      transform: scale(0.95);
   }
-  button:hover {
-    transform: scale(1.05);
-    transition: 0.3s all;
-}
-button:active{
-    transition: 0.3s all;
-    transform: scale(0.95);
-}
-head {
-  background-color:blue;
-}
-</style>
-</head>
-<body>
-  <a href="https://criticallynoob.github.io/GameDev2023/public/t3a01-web-basics-Jacob.html">Last year</a><br><br>
-
-  <button id="button" onclick="{
-    window.location.href = 'https://www.youtube.com/watch?v=6AuFin3R0O8';
-  }"></button>
-
-<script type="text/javascript">
-    var buttons = document.getElementById("button");
-    buttons.innerHTML = '<img src="Rathold.png">';
-</script><br><br>
-  <iframe src="https://www.youtube.com/embed/qvC2bVa7UX4?si=Z4BXRNE3BClW6MH1" title="Video" style=" width:500px; height:500px;"></iframe><br><br>
+  head {
+    background-color:blue;
+  }
+  h1 {
+    color:aliceblue;
+    outline:1px;
+    outline-color:black;
+  }
+  .title {
+    color:black;
+  }
+  </style>
+  </head>
+  <body>
+    <a href="https://criticallynoob.github.io/GameDev2023/public/t3a01-web-basics-Jacob.html">Last year</a><br><br>
   
+    <button id="button" onclick="{
+      window.location.href = 'https://www.youtube.com/watch?v=6AuFin3R0O8';
+    }"></button>
   
-  <h1>Simple Music Player</h1>
-    <audio id="audio" controls>
-        Your browser does not support the audio element.
-    </audio>
-    <button id="playPause">Play</button>
-    <input id="volume" type="range" min="0" max="1" step="0.1" value="1">
-    <form id="audioForm">
-        <input type="file" id="audioFile" accept=".mp3">
-        <button type="submit">Upload Audio</button>
-    </form>
-
-    <script>
-        const audio = document.getElementById('audio');
-        const playPauseButton = document.getElementById('playPause');
-        const volumeControl = document.getElementById('volume');
-        const audioFileInput = document.getElementById('audioFile');
-        const audioForm = document.getElementById('audioForm');
-
-        // Add event listeners
-        playPauseButton.addEventListener('click', togglePlayPause);
-        volumeControl.addEventListener('input', setVolume);
-        audioForm.addEventListener('submit', uploadAudio);
-
-        // Function to play or pause the audio
-        function togglePlayPause() {
-            if (audio.paused) {
-                audio.play();
-                playPauseButton.textContent = 'Pause';
-            } else {
-                audio.pause();
-                playPauseButton.textContent = 'Play';
-            }
-        }
-
-        // Function to set the volume
-        function setVolume() {
-            audio.volume = volumeControl.value;
-        }
-
-        // Function to upload a new audio file
-        function uploadAudio(event) {
-            event.preventDefault();
-            const file = audioFileInput.files[0];
-            if (file) {
-                const objectURL = URL.createObjectURL(file);
-                audio.src = objectURL;
-            }
-        }
-    </script>
-</body>
+  <script type="text/javascript">
+      var buttons = document.getElementById("button");
+      buttons.innerHTML = '<img src="Rathold.png">';
+  </script><br><br>
+    <iframe src="https://www.youtube.com/embed/qvC2bVa7UX4?si=Z4BXRNE3BClW6MH1" title="Video" style=" width:500px; height:500px;"></iframe><br><br>
+    
+    
+    <h1>Simple Music Player</h1>
+      <audio id="audio" controls>
+          Your browser does not support the audio element.
+      </audio>
+      <button id="playPause">Play</button>
+      <input id="volume" type="range" min="0" max="1" step="0.1" value="1">
+      <form id="audioForm">
+          <input type="file" id="audioFile" accept=".mp3">
+          <button type="submit">Upload Audio</button>
+      </form>
+  
+      <script>
+          const audio = document.getElementById('audio');
+          const playPauseButton = document.getElementById('playPause');
+          const volumeControl = document.getElementById('volume');
+          const audioFileInput = document.getElementById('audioFile');
+          const audioForm = document.getElementById('audioForm');
+  
+          // Add event listeners
+          playPauseButton.addEventListener('click', togglePlayPause);
+          volumeControl.addEventListener('input', setVolume);
+          audioForm.addEventListener('submit', uploadAudio);
+  
+          // Function to play or pause the audio
+          function togglePlayPause() {
+              if (audio.paused) {
+                  audio.play();
+                  playPauseButton.textContent = 'Pause';
+              } else {
+                  audio.pause();
+                  playPauseButton.textContent = 'Play';
+              }
+          }
+  
+          // Function to set the volume
+          function setVolume() {
+              audio.volume = volumeControl.value;
+          }
+  
+          // Function to upload a new audio file
+          function uploadAudio(event) {
+              event.preventDefault();
+              const file = audioFileInput.files[0];
+              if (file) {
+                  const objectURL = URL.createObjectURL(file);
+                  audio.src = objectURL;
+              }
+          }
+      </script>
+  </body>
+  

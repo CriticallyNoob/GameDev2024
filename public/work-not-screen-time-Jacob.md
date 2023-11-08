@@ -1,5 +1,3 @@
-Work on capstone
+Nov 8th
 
-Study Japanese or something
-
-Work on old assignments
+Day 3 of working on the final bug in my capstone

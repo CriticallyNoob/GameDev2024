@@ -27,16 +27,19 @@ Extending a pre-existing Class <br>
 </pre>
 
 <h4> Example working Classes code</h4>
-
+<input type="number" value="14" id="age"><br>
+<input type="text" value="Fluffy" id="name"><br>
 <input type="button" value="Examples Class Set and Show Class Animal" onClick="{
     class myCat extends myAnimal {
         myShow(){
-            document.getElementById('myDiv01').innerHTML = this.myName + ' is a great cat<br>'
+            document.getElementById('myDiv01').innerHTML = this.myName + ' is a great cat who is ' + this.myAge + ' years old.'
         }
     }   // end extended class myCat
 
-    myPet = new myCat('Fluffy', 14)
+    myPet = new myCat(document.getElementById('name').value, document.getElementById('age').value)
     myPet.myShow()
 }">
 
+
 <div id="myDiv01">...</div>
+

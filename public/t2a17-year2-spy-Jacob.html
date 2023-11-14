@@ -1,1 +1,106 @@
-hello world
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Base64 Encoder/Decoder</title>
+</head>
+<body>
+  <h1 align=center>t2a17-spy-Jacob.html</h1>
+  <a href="https://criticallynoob.github.io/GameDev2023/public/t4a06-spy-Jacob.html">last year</a>
+  <textarea id="myArea01" rows=4 cols=70>Hello how are you</textarea><br> 
+
+  <input type=button value="encrypt" onclick="{
+     let myTemp = ''
+     myString = document.getElementById('myArea01').value.split('')
+     for (let myLoop=0;   myLoop < myString.length; myLoop++){
+        myTemp = myString[myLoop]
+        if (myString[myLoop] == 'a') {myTemp  = 'z'} 
+        if (myString[myLoop] == 'b') {myTemp  = 'y'} 
+        if (myString[myLoop] == 'c') {myTemp  = 'x'} 
+        if (myString[myLoop] == 'd') {myTemp  = 'w'} 
+        if (myString[myLoop] == 'e') {myTemp  = 'v'} 
+        if (myString[myLoop] == 'f') {myTemp  = 'u'}
+        if (myString[myLoop] == 'g') {myTemp  = 't'} 
+        if (myString[myLoop] == 'h') {myTemp  = 's'} 
+        if (myString[myLoop] == 'i') {myTemp  = 'r'} 
+        if (myString[myLoop] == 'j') {myTemp  = 'q'} 
+        if (myString[myLoop] == 'k') {myTemp  = 'p'} 
+        if (myString[myLoop] == 'l') {myTemp  = 'o'} 
+        if (myString[myLoop] == 'm') {myTemp  = 'n'} 
+        if (myString[myLoop] == 'n') {myTemp  = 'm'} 
+        if (myString[myLoop] == 'o') {myTemp  = 'l'} 
+        if (myString[myLoop] == 'p') {myTemp  = 'k'} 
+        if (myString[myLoop] == 'q') {myTemp  = 'j'} 
+        if (myString[myLoop] == 'r') {myTemp  = 'i'} 
+        if (myString[myLoop] == 's') {myTemp  = 'h'} 
+        if (myString[myLoop] == 't') {myTemp  = 'g'} 
+        if (myString[myLoop] == 'u') {myTemp  = 'f'} 
+        if (myString[myLoop] == 'v') {myTemp  = 'e'} 
+        if (myString[myLoop] == 'w') {myTemp  = 'd'} 
+        if (myString[myLoop] == 'x') {myTemp  = 'c'} 
+        if (myString[myLoop] == 'y') {myTemp  = 'b'} 
+        if (myString[myLoop] == 'z') {myTemp  = 'a'} 
+        myString[myLoop] = myTemp
+     }
+     document.getElementById('myArea02').value = myString.join('')
+  }">
+  <input type=button value=base64 onclick="base64()" id="base64"><br><br>
+
+  <textarea id="myArea02" rows=4 cols=70></textarea><br> 
+
+  <input type=button value="decrypt" onclick="{
+      let myTemp = ''
+     myString = document.getElementById('myArea02').value.toLowerCase().split('')
+     for (let myLoop=0;   myLoop < myString.length; myLoop++){
+        myTemp = myString[myLoop]
+        if (myString[myLoop] == 'z') {myTemp  = 'a'} 
+        if (myString[myLoop] == 'y') {myTemp  = 'b'} 
+        if (myString[myLoop] == 'x') {myTemp  = 'c'} 
+        if (myString[myLoop] == 'w') {myTemp  = 'd'} 
+        if (myString[myLoop] == 'v') {myTemp  = 'e'} 
+        if (myString[myLoop] == 'u') {myTemp  = 'f'}
+        if (myString[myLoop] == 't') {myTemp  = 'g'} 
+        if (myString[myLoop] == 's') {myTemp  = 'h'} 
+        if (myString[myLoop] == 'r') {myTemp  = 'i'} 
+        if (myString[myLoop] == 'q') {myTemp  = 'j'} 
+        if (myString[myLoop] == 'p') {myTemp  = 'k'} 
+        if (myString[myLoop] == 'o') {myTemp  = 'l'} 
+        if (myString[myLoop] == 'n') {myTemp  = 'm'} 
+        if (myString[myLoop] == 'm') {myTemp  = 'n'} 
+        if (myString[myLoop] == 'l') {myTemp  = 'o'} 
+        if (myString[myLoop] == 'k') {myTemp  = 'p'} 
+        if (myString[myLoop] == 'j') {myTemp  = 'q'} 
+        if (myString[myLoop] == 'i') {myTemp  = 'r'} 
+        if (myString[myLoop] == 'h') {myTemp  = 's'} 
+        if (myString[myLoop] == 'g') {myTemp  = 't'} 
+        if (myString[myLoop] == 'f') {myTemp  = 'u'} 
+        if (myString[myLoop] == 'e') {myTemp  = 'v'} 
+        if (myString[myLoop] == 'd') {myTemp  = 'w'} 
+        if (myString[myLoop] == 'c') {myTemp  = 'x'} 
+        if (myString[myLoop] == 'b') {myTemp  = 'y'} 
+        if (myString[myLoop] == 'a') {myTemp  = 'z'} 
+        myString[myLoop] = myTemp
+     }
+     document.getElementById('myArea03').value = myString.join('')
+  }">
+  <input type="button" value="decrypt base64" onclick="decodeBase64()">
+  <br><br>
+
+  <textarea id="myArea03" rows=4 cols=70></textarea><br> 
+
+  <script>
+    // Base64 encoding function
+    function base64() {
+      let inputText = document.getElementById('myArea01').value;
+      let encodedText = btoa(inputText); // Using built-in btoa() for Base64 encoding
+      document.getElementById('myArea02').value = encodedText;
+    }
+
+    // Base64 decoding function
+    function decodeBase64() {
+      let encodedText = document.getElementById('myArea02').value;
+      let decodedText = atob(encodedText); // Using built-in atob() for Base64 decoding
+      document.getElementById('myArea03').value = decodedText;
+    }
+  </script>
+</body>
+</html>

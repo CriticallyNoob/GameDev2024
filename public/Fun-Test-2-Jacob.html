@@ -1,0 +1,21 @@
+<head>
+  <h1>Video Flac Test 2</h1>
+</head>
+<body>
+  <input type="button" value="Enter" id="myButton01" onclick="FindFred()">
+  <div id="myDiv01"></div>
+  <script>
+    function FindFred() {
+      const Array = ["Tom", "Fred", "Mary"]
+
+      for(i=0; i < Array.length; i++){
+        if (Array[i] == "Fred"){
+          document.getElementById('myDiv01').innerHTML += Array[i] + " wow" + "<br>";
+        } else {
+          document.getElementById('myDiv01').innerHTML += Array[i] + "<br>";
+        }
+      }
+      
+    }
+  </script>
+</body>

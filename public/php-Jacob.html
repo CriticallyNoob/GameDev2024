@@ -1,11 +1,16 @@
 <?php
 $myCheck = false;
+$myInputText01 = "";
+$dotCount = 0;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $myInputText01 = $_POST['myText01'];
-  // if (strpos($myInput01, 'fred') !== false) {
-  if (strpos($myInputText01, 'magic word') !== false) {
+  $dotCount = isset($_POST['dotCount']) ? $_POST['dotCount'] : 0;
+
+  if (strpos($myInputText01, 'magic word') !== false || strtolower($myInputText01) === 'fred') {
     $myCheck = true;
+  } else {
+    $dotCount++; // Increment dot count for each incorrect attempt
   }
 }
 ?>
@@ -15,19 +20,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Browser Title</title>
   </head>
   <body>
-    <h3 align="center"> T2A06-php-codesandbox</h3>
-    <a href="https://5gr3h9.csb.app/">codesandbox</a>
+    <h3 align="center">T2A06-php-codesandbox</h3>
+    <a href="https://dvt7y6-8080.csb.app/index.php">codesandbox</a>
     <h4>note: codesandbox and vscode give me error code 405 not allowed when I try and input something</h4>
     <form action="index.php" method="post">
       <label for="myText01">Enter Text:</label>    
-      <input type="text" id="myText01" name="myText01">
+      <input type="text" id="myText01" name="myText01" value="<?php echo htmlspecialchars($myInputText01); ?>">
+      <input type="hidden" name="dotCount" value="<?php echo $dotCount; ?>">
       <input type="submit" value="Submit">
     </form>
     <?php
     if ($myCheck) {
       echo "<b style='color:green'>Cool!</b>";
     } else {
-      echo "<span style='color:red'>Try the magic word</span>";
+      echo "<span style='color:red'>Try the magic word";
+      for ($i = 0; $i < $dotCount; $i++) {
+        echo ".";
+      }
+      echo "</span>";
     }
     ?>
   </body>

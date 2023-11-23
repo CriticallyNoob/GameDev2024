@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple Database with JavaScript</title>
+</head>
+<body>
+  <input type="text" id="itemName" placeholder="Enter Item">
+  <button onclick="addItem()">Add Item</button>
+  <button onclick="clearDatabase()">Clear Database</button>
+
+  <ul id="itemList"></ul>
+
+  <script>
+function addItem() {
+  var itemName = document.getElementById('itemName').value;
+
+  if (itemName !== '') {
+    var items = [];
+
+    if (localStorage.getItem('items')) {
+      items = JSON.parse(localStorage.getItem('items'));
+    }
+
+    items.push(itemName);
+    localStorage.setItem('items', JSON.stringify(items));
+
+    displayItems();
+  }
+}
+
+function displayItems() {
+  var itemList = document.getElementById('itemList');
+  itemList.innerHTML = '';
+
+  var items = [];
+
+  if (localStorage.getItem('items')) {
+    items = JSON.parse(localStorage.getItem('items'));
+  }
+
+  items.forEach(function(item) {
+    var li = document.createElement('li');
+    li.textContent = item;
+    itemList.appendChild(li);
+  });
+}
+
+function clearDatabase() {
+  localStorage.removeItem('items');
+  displayItems();
+}
+
+displayItems();
+
+  </script>
+</body>
+</html>

@@ -35,7 +35,12 @@ function myCheckHit(){
    if ( myHitOther('myImg01','myImg02') ){
        alert('you lose')  
        document.getElementById('myImg01').style.left = '20px'
-       location = 't2a13-keydown.html'  // go to your next level
+       location = 'https://youtu.be/aYHzV2Y9UgY?si=oqU2OHQVS_6RJWOL'  // go to your next level
+   }
+    if ( myHitOther('myImg01','goal') ){
+       alert('you have passed the test')  
+       document.getElementById('myImg01').style.left = '20px'
+       location = 'https://en.wikipedia.org/wiki/Bread'  // go to your next level
    }
 
 
@@ -62,7 +67,7 @@ function ScrollBackground() {
 
 <img id="myImg01" style="position:absolute; width:100px; height:80px; top:0px; left:50px;"  src="PostRat.jpg">
 <img id="myImg02" style="position:absolute; width:100px; height:80px; top:0px; left:250px;" src="Rathold.mp3">
-<img id="goal" style = "position:absolute; width:100px; height:80px; top:0px; left:250px;" src="">
+<img id="goal" style = "position:absolute; width:100px; height:80px; top:1000px; left:1000px;" src="Bread.jfif">
 
 
 <script>

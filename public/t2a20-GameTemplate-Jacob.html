@@ -68,3 +68,76 @@ function myCheckHit(){
   myCheckHit()     // checks for all collisions
 }"><br><br>
 
+<script>
+  let img2Movement; // Variable to store the interval ID for movement
+
+  // Function to move myImg02 towards myImg01
+  function moveImg2TowardsImg1() {
+    const img1 = document.getElementById('myImg01');
+    const img2 = document.getElementById('myImg02');
+
+    img2Movement = setInterval(function() {
+      const img1Rect = img1.getBoundingClientRect();
+      const img2Rect = img2.getBoundingClientRect();
+
+      // Calculate the direction towards img1
+      const xDifference = img1Rect.left - img2Rect.left;
+      const yDifference = img1Rect.top - img2Rect.top;
+
+      // Update the position of myImg02 based on the direction
+      const speed = 2; // Adjust the speed as needed
+      img2.style.left = img2Rect.left + (xDifference > 0 ? speed : -speed) + 'px';
+      img2.style.top = img2Rect.top + (yDifference > 0 ? speed : -speed) + 'px';
+
+      // Check for collisions after moving
+      myCheckHit();
+    }, 100); // Adjust the interval time as needed
+  }
+
+  // Call the function to start moving myImg02 towards myImg01
+  moveImg2TowardsImg1();
+
+    let img1Movement; // Variable to store the interval ID for movement
+
+  // Function to move myImg01 using WASD keys
+  function moveImg1WithKeys(event) {
+    const img1 = document.getElementById('myImg01');
+
+    // Define the movement speed
+    const speed = 5;
+
+    // Get the current position of myImg01
+    let img1Rect = img1.getBoundingClientRect();
+
+    // Move myImg01 based on the pressed key
+    switch (event.key) {
+      case 'w':
+        img1.style.top = img1Rect.top - speed + 'px';
+        break;
+      case 'a':
+        img1.style.left = img1Rect.left - speed + 'px';
+        break;
+      case 's':
+        img1.style.top = img1Rect.top + speed + 'px';
+        break;
+      case 'd':
+        img1.style.left = img1Rect.left + speed + 'px';
+        break;
+    }
+
+    // Check for collisions after moving
+    myCheckHit();
+  }
+
+  // Event listener to capture keyboard events for myImg01 movement
+  document.addEventListener('keydown', moveImg1WithKeys);
+
+  // Function to stop the movement when a key is released
+  function stopImg1Movement() {
+    clearInterval(img1Movement);
+  }
+
+  // Event listener to stop the movement when a key is released
+  document.addEventListener('keyup', stopImg1Movement);
+</script>
+

@@ -1,145 +1,124 @@
-<h6> Version 0.0.1 </h6>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Game Template by Fred</title>
+</head>
+<body id="myBody" style="background-repeat: repeat; background-size: 80%" background="8.png">
 
-<body id="myBody" style="background-repeat:repeat; background-size: 80%" background="=8.png">
-
-<h1 align=center>t2a11 Game Template by Fred</h1>
+<h1 align="center">t2a11 Game Template by Fred</h1>
 <br><br><br><br>
 
-<script>
-
-   // global variables here
-   let myGlobalX = 0
-   let myClock
-
-
-   // global functions here
-function myHitOther(my1,my2){
-   left1   = parseInt(document.getElementById(my1).style.left)
-   right1  = left1 + parseInt(document.getElementById(my1).style.width)
-   top1    = parseInt(document.getElementById(my1).style.top)   
-   bottom1 = top1   + parseInt(document.getElementById(my1).style.height)
-   left2   = parseInt(document.getElementById(my2).style.left)
-   right2  = left2 + parseInt(document.getElementById(my2).style.width)
-   top2    = parseInt(document.getElementById(my2).style.top)   
-   bottom2 = top2   + parseInt(document.getElementById(my2).style.height)
-   if ((right1  >=  left2  ) &&      	   
-       (bottom1 >=  top2   ) &&
-       (left1   <=  right2 ) &&
-       (top1    <=  bottom2) ){
-       return true
-   }
-}
-
-
-function myCheckHit(){
-   if ( myHitOther('myImg01','myImg02') ){
-       alert('you lose')  
-       document.getElementById('myImg01').style.left = '20px'
-       location = 'https://youtu.be/aYHzV2Y9UgY?si=oqU2OHQVS_6RJWOL'  // go to your next level
-   }
-    if ( myHitOther('myImg01','goal') ){
-       alert('you have passed the test')  
-       document.getElementById('myImg01').style.left = '20px'
-       location = 'https://en.wikipedia.org/wiki/Bread'  // go to your next level
-   }
-
-
-   // more if statements here like the above
-
-
-
-}  // end of myCheckHit()
-
-function ScrollBackground() {
-   window.onload {
-       clearInterval(myClock)
-  let myTemp = '100px 0px'
-  myClock = setInterval(function(){
-      myGlobalX -= 5
-      myTemp =  myGlobalX + 'px 0px'
-      document.getElementById('myBody').style.backgroundPosition = myTemp
-  }, 100)
-   }
-   
-}
-
-</script>
-
-<img id="myImg01" style="position:absolute; width:100px; height:80px; top:0px; left:50px;"  src="PostRat.jpg">
-<img id="myImg02" style="position:absolute; width:100px; height:80px; top:0px; left:250px;" src="Rathold.mp3">
-<img id="goal" style = "position:absolute; width:100px; height:80px; top:1000px; left:1000px;" src="Bread.jfif">
-
+<img id="myImg01" style="position: absolute; width: 100px; height: 80px; top: 0px; left: 50px;" src="PostRat.jpg">
+<img id="myImg02" style="position: absolute; width: 100px; height: 80px; top: 0px; left: 250px;" src="Rathold.mp3">
+<img id="goal" style="position: absolute; width: 100px; height: 80px; top: 500px; left: 500px;" src="Bread.jfif">
 
 <script>
-  let img2Movement; // Variable to store the interval ID for movement
+    // Global variables here
+    let myGlobalX = 0;
+    let myClock;
 
-  // Function to move myImg02 towards myImg01
-  function moveImg2TowardsImg1() {
-    const img1 = document.getElementById('myImg01');
-    const img2 = document.getElementById('myImg02');
+    // Function to move myImg02 towards myImg01
+    function moveImg2TowardsImg1() {
+        const img1 = document.getElementById('myImg01');
+        const img2 = document.getElementById('myImg02');
 
-    img2Movement = setInterval(function() {
-      const img1Rect = img1.getBoundingClientRect();
-      const img2Rect = img2.getBoundingClientRect();
+        img2Movement = setInterval(function() {
+            const rect1 = img1.getBoundingClientRect();
+            const rect2 = img2.getBoundingClientRect();
 
-      // Calculate the direction towards img1
-      const xDifference = img1Rect.left - img2Rect.left;
-      const yDifference = img1Rect.top - img2Rect.top;
+            const xDifference = rect1.left - rect2.left;
+            const yDifference = rect1.top - rect2.top;
 
-      // Update the position of myImg02 based on the direction
-      const speed = 2; // Adjust the speed as needed
-      img2.style.left = img2Rect.left + (xDifference > 0 ? speed : -speed) + 'px';
-      img2.style.top = img2Rect.top + (yDifference > 0 ? speed : -speed) + 'px';
+            const speed = 2;
+            img2.style.left = rect2.left + (xDifference > 0 ? speed : -speed) + 'px';
+            img2.style.top = rect2.top + (yDifference > 0 ? speed : -speed) + 'px';
 
-      // Check for collisions after moving
-      myCheckHit();
-    }, 100); // Adjust the interval time as needed
-  }
-
-  // Call the function to start moving myImg02 towards myImg01
-  moveImg2TowardsImg1();
-
-    let img1Movement; // Variable to store the interval ID for movement
-
-  // Function to move myImg01 using WASD keys
-  function moveImg1WithKeys(event) {
-    const img1 = document.getElementById('myImg01');
-
-    // Define the movement speed
-    const speed = 5;
-
-    // Get the current position of myImg01
-    let img1Rect = img1.getBoundingClientRect();
-
-    // Move myImg01 based on the pressed key
-    switch (event.key) {
-      case 'w':
-        img1.style.top = img1Rect.top - speed + 'px';
-        break;
-      case 'a':
-        img1.style.left = img1Rect.left - speed + 'px';
-        break;
-      case 's':
-        img1.style.top = img1Rect.top + speed + 'px';
-        break;
-      case 'd':
-        img1.style.left = img1Rect.left + speed + 'px';
-        break;
+            // Check for collisions after moving
+            myCheckHit();
+        }, 100);
     }
 
-    // Check for collisions after moving
-    myCheckHit();
-  }
+    // Call the function to start moving myImg02 towards myImg01
+    moveImg2TowardsImg1();
 
-  // Event listener to capture keyboard events for myImg01 movement
-  document.addEventListener('keydown', moveImg1WithKeys);
+    // Function to move myImg01 using WASD keys
+    function moveImg1WithKeys(event) {
+        const img1 = document.getElementById('myImg01');
+        const speed = 5;
+        let rect1 = img1.getBoundingClientRect();
 
-  // Function to stop the movement when a key is released
-  function stopImg1Movement() {
-    clearInterval(img1Movement);
-  }
+        switch (event.key) {
+            case 'w':
+                img1.style.top = rect1.top - speed + 'px';
+                break;
+            case 'a':
+                img1.style.left = rect1.left - speed + 'px';
+                break;
+            case 's':
+                img1.style.top = rect1.top + speed + 'px';
+                break;
+            case 'd':
+                img1.style.left = rect1.left + speed + 'px';
+                break;
+        }
 
-  // Event listener to stop the movement when a key is released
-  document.addEventListener('keyup', stopImg1Movement);
+        // Check for collisions after moving
+        myCheckHit();
+    }
+
+    // Event listener to capture keyboard events for myImg01 movement
+    document.addEventListener('keydown', moveImg1WithKeys);
+
+    // Function to stop the movement when a key is released
+    function stopImg1Movement() {
+        clearInterval(img1Movement);
+    }
+
+    // Event listener to stop the movement when a key is released
+    document.addEventListener('keyup', stopImg1Movement);
+
+    // Function to handle collision detection
+    function myHitOther(my1, my2) {
+        const rect1 = document.getElementById(my1).getBoundingClientRect();
+        const rect2 = document.getElementById(my2).getBoundingClientRect();
+
+        return (
+            rect1.left < rect2.right &&
+            rect1.right > rect2.left &&
+            rect1.top < rect2.bottom &&
+            rect1.bottom > rect2.top
+        );
+    }
+
+    function myCheckHit() {
+        if (myHitOther('myImg01', 'myImg02')) {
+            alert('You lose!');
+            document.getElementById('myImg01').style.left = '20px';
+            window.location.href = 'https://youtu.be/aYHzV2Y9UgY?si=oqU2OHQVS_6RJWOL'; // Go to the next level
+        }
+        if (myHitOther('myImg01', 'goal')) {
+            alert('You have passed the test!');
+            document.getElementById('myImg01').style.left = '20px';
+            window.location.href = 'https://en.wikipedia.org/wiki/Bread'; // Go to the next level
+        }
+
+        // More if statements here for additional collisions
+    }
+
+    // Function for background scrolling
+    function ScrollBackground() {
+        clearInterval(myClock);
+        let myTemp = '100px 0px';
+        myClock = setInterval(function() {
+            myGlobalX -= 5;
+            myTemp = myGlobalX + 'px 0px';
+            document.getElementById('myBody').style.backgroundPosition = myTemp;
+        }, 100);
+    }
+
+    // Trigger background scroll when the window loads
+    window.onload = ScrollBackground;
 </script>
 
+</body>
+</html>

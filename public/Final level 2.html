@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Walking Guy Game</title>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+    }
+    canvas {
+      border: 2px solid #333;
+      background-color: teal;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="gameCanvas" width="1900" height="900"></canvas>
+  <button id="restartButton" style="visibility: hidden; position:absolute; left:950px; top:400px;" onclick="restartGame()">Restart</button>  
+  <button id="quitButton" style="visibility: hidden; position:absolute; left:955px; top:450px;" onclick="quitGame()">Quit</button>
+  <div id="myDiv01" style="color:black; position:absolute; left:20px; top:20px;">0 seconds survived</div>
+  <div id="myDiv02" style="color:black; position:absolute; left:20px; top:50px; visibility:hidden;">High Score: </div>
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Constants
+    const PLAYER_SIZE = 50;
+    const SCREEN_WIDTH = canvas.width;
+    const SCREEN_HEIGHT = canvas.height;
+    const PLAYER_SPEED = 3;
+    const ENEMY_SPEED = 1.5;
+
+    let playerX = SCREEN_WIDTH / 2;
+    let playerY = SCREEN_HEIGHT / 2;
+    let velocityX = 0;
+    let velocityY = 0;
+    let gameRunning = true;
+    let enemies = [];
+    let spawnInterval;
+    let scoreInterval;
+
+    function drawPlayer() {
+      ctx.fillStyle = 'black'; 
+      ctx.fillRect(playerX, playerY, PLAYER_SIZE, PLAYER_SIZE);
+    }
+
+    function drawEnemies() {
+      ctx.fillStyle = 'red';
+      enemies.forEach(enemy => {
+        ctx.fillRect(enemy.x, enemy.y, PLAYER_SIZE, PLAYER_SIZE);
+      });
+    }
+
+    function clearCanvas() {
+      ctx.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    }
+
+    function spawnEnemy() {
+      const randomX = Math.random() * (SCREEN_WIDTH - PLAYER_SIZE);
+      const randomY = Math.random() * (SCREEN_HEIGHT - PLAYER_SIZE);
+      return { x: randomX, y: randomY };
+    }
+
+    function startSpawnLoop(intervalSeconds) {
+      spawnInterval = setInterval(() => {
+        if (gameRunning) {
+          const newEnemy = spawnEnemy();
+          enemies.push(newEnemy);
+        }
+      }, intervalSeconds * 1000);
+    }
+
+    function stopSpawnLoop() {
+      clearInterval(spawnInterval);
+    }
+
+    function movePlayer() {
+      const magnitude = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
+      if (magnitude !== 0) {
+        const normalizedX = velocityX / magnitude;
+        const normalizedY = velocityY / magnitude;
+
+        playerX += normalizedX * PLAYER_SPEED;
+        playerY += normalizedY * PLAYER_SPEED;
+
+        playerX = Math.max(0, Math.min(playerX, SCREEN_WIDTH - PLAYER_SIZE));
+        playerY = Math.max(0, Math.min(playerY, SCREEN_HEIGHT - PLAYER_SIZE));
+      }
+    }
+
+    function moveEnemies() {
+      enemies.forEach(enemy => {
+        const dx = playerX - enemy.x;
+        const dy = playerY - enemy.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance !== 0) {
+          const normalizedX = dx / distance;
+          const normalizedY = dy / distance;
+
+          enemy.x += normalizedX * ENEMY_SPEED;
+          enemy.y += normalizedY * ENEMY_SPEED;
+        }
+      });
+    }
+
+    function checkCollision() {
+      enemies.forEach(enemy => {
+        if (
+          playerX < enemy.x + PLAYER_SIZE &&
+          playerX + PLAYER_SIZE > enemy.x &&
+          playerY < enemy.y + PLAYER_SIZE &&
+          playerY + PLAYER_SIZE > enemy.y
+        ) {
+          gameRunning = false;
+          document.getElementById('quitButton').style.visibility = "visible";
+          document.getElementById('restartButton').style.visibility = "visible";
+          document.getElementById('myDiv02').style.visibility = "visible";
+          stopSpawnLoop();
+          stopScoreCounter();
+          updateHighScore(); // Update high score when game ends
+          moveText();
+        }
+      });
+    }
+
+    function gameLoop() {
+      if (gameRunning) {
+        clearCanvas();
+        drawPlayer();
+        drawEnemies();
+        movePlayer();
+        moveEnemies();
+        checkCollision();
+        requestAnimationFrame(gameLoop);
+      }
+    }
+
+    gameLoop();
+
+    // Event listeners for keyboard input
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('keyup', handleKeyUp);
+
+    function handleKeyDown(event) {
+      const key = event.key.toLowerCase();
+
+      switch (key) {
+        case 'w':
+          velocityY = -1;
+          break;
+        case 'a':
+          velocityX = -1;
+          break;
+        case 's':
+          velocityY = 1;
+          break;
+        case 'd':
+          velocityX = 1;
+          break;
+        default:
+          break;
+      }
+    }
+
+    function handleKeyUp(event) {
+      const key = event.key.toLowerCase();
+
+      switch (key) {
+        case 'w':
+        case 's':
+          velocityY = 0;
+          break;
+        case 'a':
+        case 'd':
+          velocityX = 0;
+          break;
+        default:
+          break;
+      }
+    }
+
+    function quitGame() {
+      window.close();
+    }
+
+    function restartGame() {
+      location.reload();
+    }
+
+    let gameInfo = {
+      score: 0,
+      highScore: localStorage.getItem('highScore') || 0,
+      scoreInterval: null
+    };
+
+    function startScoreCounter(second) {
+      gameInfo.scoreInterval = setInterval(() => {
+        gameInfo.score++;
+        document.getElementById('myDiv01').innerHTML = gameInfo.score + ' seconds survived';
+      }, second * 1000);
+    }
+
+    function stopScoreCounter() {
+      clearInterval(gameInfo.scoreInterval);
+    }
+
+    function updateHighScore() {
+      const currentScore = gameInfo.score;
+      const highScore = localStorage.getItem('highScore') || 0;
+
+      if (currentScore > highScore) {
+        localStorage.setItem('highScore', currentScore);
+        document.getElementById('myDiv02').innerHTML = 'High Score: ' + currentScore + ' seconds';
+      } else {
+        document.getElementById('myDiv02').innerHTML = 'High Score: ' + localStorage.getItem('highScore') + ' seconds'; 
+      }
+    }
+
+    function moveText(){
+      const timer = document.getElementById('myDiv01');
+      const scoreBox = document.getElementById('myDiv02');
+      if (gameRunning == false){
+        timer.style.top = '300px';
+        timer.style.left = '9028px';
+        scoreBox.style.top = '350px';
+        scoreBox.style.left = '900px';
+        timer.style.border = '2px';
+        timer.style.padding = '3px';
+        timer.style.backgroundColor = 'white';
+        scoreBox.style.border = '2px';
+        scoreBox.style.padding = '3px';
+        scoreBox.style.backgroundColor = 'white';
+
+
+      }
+
+    }
+
+    // Call startScoreCounter function
+    startScoreCounter(1);
+    startSpawnLoop(2); // Adjust the interval here for enemy spawn frequency
+  </script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Canvas Drawing</title>
+  <h2 align="center">t2a21-canvas-Jacob.html</h2>
+  <style>
+    canvas {
+      border: 1px solid #000;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="myCanvas" width="400" height="400"></canvas><br>
+  <button onclick="drawStickman()">Draw Stickman</button>
+  <button onclick="drawHouse()">Draw House</button>
+  <button onclick="clearCanvas()">Clear Canvas</button>
+
+  <script>
+    const canvas = document.getElementById('myCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function drawStickman() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.beginPath();
+      ctx.arc(200, 100, 40, 0, Math.PI * 2); // Head
+      ctx.moveTo(200, 140);
+      ctx.lineTo(200, 260); // Body
+      ctx.moveTo(200, 160);
+      ctx.lineTo(150, 220); // Left arm
+      ctx.moveTo(200, 160);
+      ctx.lineTo(250, 220); // Right arm
+      ctx.moveTo(200, 260);
+      ctx.lineTo(150, 330); // Left leg
+      ctx.moveTo(200, 260);
+      ctx.lineTo(250, 330); // Right leg
+      ctx.stroke();
+    }
+
+    function drawHouse() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.beginPath();
+      ctx.moveTo(50, 250); // Bottom left corner of the house
+      ctx.lineTo(200, 100); // Top point of the roof
+      ctx.lineTo(350, 250); // Bottom right corner of the house
+      ctx.lineTo(50, 250); // Connects back to the bottom left corner
+      ctx.stroke();
+
+      // Door
+      ctx.fillRect(150, 250, 100, 150);
+    }
+
+    function clearCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  </script>
+</body>
+</html>

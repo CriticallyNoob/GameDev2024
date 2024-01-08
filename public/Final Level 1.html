@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Game Template by Fred</title>
+</head>
+<body id="myBody" style="background-repeat: repeat; background-size: 80%" background="=8.png">
+
+<h1 align="center">t2a11 Game Template by Fred</h1>
+<br><br><br><br>
+
+<canvas id="myCanvas" width="800" height="600" style="border:1px solid black;"></canvas>
+
+<script>
+    const canvas = document.getElementById('myCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let playerX = 50;
+    let playerY = 50;
+
+    let enemyX = 250;
+    let enemyY = 50;
+
+    let goalX = 500;
+    let goalY = 500;
+
+    let myGlobalX = 0;
+    let myClock;
+
+    const keysPressed = {};
+
+    function drawPlayer() {
+        ctx.fillStyle = 'blue';
+        ctx.fillRect(playerX, playerY, 50, 50);
+    }
+
+    function drawEnemy() {
+        ctx.fillStyle = 'red';
+        ctx.fillRect(enemyX, enemyY, 50, 50);
+    }
+
+    function drawGoal() {
+        ctx.fillStyle = 'green';
+        ctx.fillRect(goalX, goalY, 50, 50);
+    }
+
+    function moveEnemyTowardsPlayer() {
+        const speed = 1;
+
+        const xDifference = playerX - enemyX;
+        const yDifference = playerY - enemyY;
+
+        const distance = Math.hypot(xDifference, yDifference);
+        const xUnit = xDifference / distance;
+        const yUnit = yDifference / distance;
+
+        enemyX += xUnit * speed;
+        enemyY += yUnit * speed;
+
+        checkHit();
+        drawCanvas();
+    }
+
+    function movePlayer() {
+        const speed = 5;
+        const diagonalSpeed = Math.sqrt((speed * speed) / 2);
+
+        if (keysPressed['KeyW'] && keysPressed['KeyA']) {
+            playerX -= diagonalSpeed;
+            playerY -= diagonalSpeed;
+        } else if (keysPressed['KeyW'] && keysPressed['KeyD']) {
+            playerX += diagonalSpeed;
+            playerY -= diagonalSpeed;
+        } else if (keysPressed['KeyS'] && keysPressed['KeyA']) {
+            playerX -= diagonalSpeed;
+            playerY += diagonalSpeed;
+        } else if (keysPressed['KeyS'] && keysPressed['KeyD']) {
+            playerX += diagonalSpeed;
+            playerY += diagonalSpeed;
+        } else {
+            if (keysPressed['KeyW']) { playerY -= speed; }
+            if (keysPressed['KeyA']) { playerX -= speed; }
+            if (keysPressed['KeyS']) { playerY += speed; }
+            if (keysPressed['KeyD']) { playerX += speed; }
+        }
+
+        checkHit();
+        drawCanvas();
+    }
+
+    function hitOther(x1, y1, x2, y2) {
+        return (
+            x1 < x2 + 50 &&
+            x1 + 50 > x2 &&
+            y1 < y2 + 50 &&
+            y1 + 50 > y2
+        );
+    }
+
+    function checkHit() {
+        if (hitOther(playerX, playerY, enemyX, enemyY)) {
+            alert('You lose!');
+            resetPositions();
+        }
+        if (hitOther(playerX, playerY, goalX, goalY)) {
+            alert('You have passed the test!');
+            window.location.href = 'Final Level 2.html';
+        }
+    }
+
+    function resetPositions() {
+        playerX = 20;
+        playerY = 20;
+        enemyX = 250;
+        enemyY = 50;
+        goalX = 500;
+        goalY = 500;
+    }
+
+    function scrollBackground() {
+        clearInterval(myClock);
+        myClock = setInterval(function() {
+            myGlobalX -= 5;
+            document.getElementById('myBody').style.backgroundPosition = myGlobalX + 'px 0px';
+        }, 100);
+    }
+
+    function drawCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawPlayer();
+        drawEnemy();
+        drawGoal();
+    }
+
+    document.addEventListener('keydown', (event) => {
+        keysPressed[event.code] = true;
+        movePlayer();
+    });
+
+    document.addEventListener('keyup', (event) => {
+        keysPressed[event.code] = false;
+        movePlayer();
+    });
+
+    let enemyMovement = setInterval(moveEnemyTowardsPlayer, 30);
+
+    window.onload = function() {
+        drawCanvas();
+        scrollBackground();
+    };
+</script>
+
+</body>
+</html>
